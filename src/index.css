@@ -1,6 +1,9 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 @layer base {
   :root {
@@ -35,19 +38,12 @@
     --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
@@ -96,6 +92,72 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+    font-family: 'Inter', sans-serif;
   }
+}
+
+.glass-card {
+  @apply bg-white bg-opacity-70 backdrop-blur-md border border-gray-200 rounded-lg shadow-sm;
+}
+
+.animate-delay-100 {
+  animation-delay: 100ms;
+}
+
+.animate-delay-200 {
+  animation-delay: 200ms;
+}
+
+.animate-delay-300 {
+  animation-delay: 300ms;
+}
+
+.bg-progress-good {
+  @apply bg-gradient-to-r from-green-100 to-green-50;
+}
+
+.bg-progress-warning {
+  @apply bg-gradient-to-r from-yellow-100 to-yellow-50;
+}
+
+.bg-progress-bad {
+  @apply bg-gradient-to-r from-red-100 to-red-50;
+}
+
+.alternate-row:nth-child(odd) {
+  @apply bg-scanner-headerLight bg-opacity-30;
+}
+
+/* Smooth animations for input focus */
+input, select, button {
+  @apply transition-all duration-200;
+}
+
+input:focus, select:focus {
+  @apply ring-2 ring-blue-400 outline-none;
+}
+
+button {
+  @apply transition-transform hover:scale-[1.02] active:scale-[0.98];
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
 }
