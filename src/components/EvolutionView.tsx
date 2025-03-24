@@ -1,12 +1,13 @@
 
 import React from 'react';
-import { X, BarChart, UserCircle, Map, FileDown, DownloadCloud } from 'lucide-react';
+import { X, BarChart, UserCircle, Map, FileDown, DownloadCloud, Printer } from 'lucide-react';
 import { useData } from '../context/DataContext';
 import { calculateRegionStats, getBackgroundProgressClass } from '../utils/dataUtils';
 import { Driver } from '../context/DataContext';
 import { toast } from 'sonner';
 import DriverEvolution from './DriverEvolution';
 import { exportToExcel } from '../utils/excelParser';
+import html2canvas from 'html2canvas';
 
 const EvolutionView: React.FC = () => {
   const { 
@@ -19,6 +20,7 @@ const EvolutionView: React.FC = () => {
 
   const regionStats = calculateRegionStats(filteredDrivers, selectedRegion !== 'all' ? selectedRegion : undefined);
   const [exportType, setExportType] = React.useState<string>('all');
+  const evolutionRef = React.useRef<HTMLDivElement>(null);
 
   const handleExport = () => {
     try {
@@ -30,6 +32,31 @@ const EvolutionView: React.FC = () => {
     }
   };
 
+  const handlePrint = async () => {
+    if (!evolutionRef.current) return;
+    
+    try {
+      toast.info('Gerando imagem...');
+      
+      const canvas = await html2canvas(evolutionRef.current, {
+        scale: 2,
+        backgroundColor: null,
+        logging: false,
+      });
+      
+      const image = canvas.toDataURL('image/png');
+      const link = document.createElement('a');
+      link.href = image;
+      link.download = `evolucao_entregas_${new Date().toISOString().split('T')[0]}.png`;
+      link.click();
+      
+      toast.success('Imagem salva com sucesso!');
+    } catch (error) {
+      console.error('Error generating print:', error);
+      toast.error('Erro ao gerar imagem. Por favor, tente novamente.');
+    }
+  };
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 animate-fade-in">
       <div className="glass-card w-full max-w-5xl max-h-[90vh] overflow-y-auto">
@@ -38,15 +65,24 @@ const EvolutionView: React.FC = () => {
             <BarChart className="text-scanner-header" />
             Evolução de Entregas
           </h2>
-          <button
-            onClick={() => setShowEvolution(false)}
-            className="p-2 rounded-full hover:bg-gray-100"
-          >
-            <X size={20} />
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handlePrint}
+              className="flex items-center gap-1 px-3 py-1.5 bg-purple-500 text-white rounded-md text-sm hover:bg-purple-600"
+            >
+              <Printer size={14} />
+              Print
+            </button>
+            <button
+              onClick={() => setShowEvolution(false)}
+              className="p-2 rounded-full hover:bg-gray-100"
+            >
+              <X size={20} />
+            </button>
+          </div>
         </div>
 
-        <div className="p-6">
+        <div className="p-6" ref={evolutionRef}>
           {/* View Selection */}
           <div className="flex flex-col sm:flex-row gap-4 mb-6">
             <div className="flex gap-2 items-center">

@@ -5,6 +5,7 @@ import DataTable from '../components/DataTable';
 import FilterBar from '../components/FilterBar';
 import EvolutionView from '../components/EvolutionView';
 import BatchRouteInput from '../components/BatchRouteInput';
+import AddDriverForm from '../components/AddDriverForm';
 import { DataProvider, useData } from '../context/DataContext';
 import { Trash2, FileText } from 'lucide-react';
 
@@ -42,14 +43,18 @@ const Content = () => {
             <FileText size={36} className="mx-auto mb-4 text-gray-400" />
             <h2 className="text-xl font-semibold mb-2">Nenhum dado importado</h2>
             <p className="text-gray-600 mb-6">
-              Comece importando um arquivo XLSX com dados dos motoristas e serviços.
+              Comece importando um arquivo XLSX com dados dos motoristas e serviços, ou adicione manualmente.
             </p>
           </div>
           <FileUploader />
+          <div className="mt-6">
+            <AddDriverForm />
+          </div>
         </div>
       ) : (
         <>
           <FilterBar />
+          <AddDriverForm />
           <BatchRouteInput />
           <DataTable />
           {showEvolution && <EvolutionView />}
