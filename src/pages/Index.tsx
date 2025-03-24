@@ -18,7 +18,7 @@ const Content = () => {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
             <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 mb-1">
-              Agente Serviço Scanner
+              Evolutivo De Rotas
             </h1>
             <p className="text-gray-600">
               Importe, gerencie e acompanhe a evolução das entregas dos motoristas
